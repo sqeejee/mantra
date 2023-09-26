@@ -14,7 +14,7 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  MongoClient.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+  MongoClient.connect(mongoUrl, (err, client) => {
     if (err) {
       console.error('Error connecting to MongoDB:', err);
       return res.status(500).send('Internal Server Error');
