@@ -18,7 +18,7 @@ app.set('view engine', 'ejs');
 
 async function fetchMessages() {
   try {
-    const client = await MongoClient.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+    const client = await MongoClient.connect(mongoUrl);
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
     const messages = await collection.find({}).sort({ _id: -1 }).toArray();
