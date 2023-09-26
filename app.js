@@ -6,8 +6,7 @@ const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
 require("dotenv").config();
 
-const mongoUrl =
-  "mongodb+srv://45oOjXnRNQSHQvNl:45oOjXnRNQSHQvNl@cluster0.9wcnpni.mongodb.net/?retryWrites=true&w=majority";
+const mongoUrl = process.env.DB_URL;
 const dbName = "Cluster0";
 const collectionName = "messages";
 
