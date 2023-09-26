@@ -1,0 +1,132 @@
+body, h1, h2, p, ul, li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Set a background color and font family */
+  body {
+    background-color: whitesmoke;
+    font-family: Arial, sans-serif;
+  }
+  
+  .main-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 22vh;
+    font-weight: bold;
+  }
+  
+  /* Style the message text */
+  .message {
+    font-size: 100px; /* Make the message text big */
+  }
+  
+  /* Style the username and timestamp */
+  .user {
+    margin-top: 20px; 
+    font-size: 20px
+  }
+  
+  /* Additional styling for the user/timestamp if needed */
+  .timestamp {
+    margin-top: 5px; 
+    font-size: 15px
+  }
+
+  .form
+  {
+    margin-top: 10%;
+    font-size: 15px;
+    text-emphasis-color: rgb(255, 255, 255);
+  }
+
+  h2 {
+    text-align: center;
+    color: gray;
+  }
+  
+  h3 {
+    text-align: center;
+  }
+
+
+  h2#submit-message {
+    margin-top: 40px;
+    color: red;
+  }
+  
+  form {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"] {
+    width: 20%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: rgb(245, 243, 243);
+  }
+  
+  button[type="submit"] {
+    background-color: #4b4d4f;
+    color: whitesmoke;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Style the Other Messages section */
+  h2#other-messages {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 20px;
+    background-color: #b8b8b8;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  .message-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .message-box {
+    background-color: #d2d2d2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 10px;
+    max-width: 300px; /* Adjust as needed */
+  }
+  
+  /* Additional styling for message content */
+  .message-box p {
+    margin: 5px 0;
+  }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= recentMessage.message %> </title>
+  <link rel="stylesheet" type="text/css" href="/styles/home.css">
+</head>
+<body>
+
+
+  
+  <div class="main-message">
+    <div class="message">
+      <p><strong></strong> <%= recentMessage.message %></p>
+    </div>
+    <div class="user">
+      <p><strong>Spoken by</strong> <%= recentMessage.username %></p>
+    </div>
+    <div class="timestamp">
+     <p><strong></strong> <%= (recentMessage.timestamp) %></p>
+    </div>
+  </div>
+
+
+  <div class="form">
+  <h2>Something on your mind?</h2>
+  <form action="/submit" method="post">
+    <label for="message">Message</label>
+    <input type="text" id="message" name="message" required maxlength="40"><br>
+    <label for="username">Name (optional):</label>
+    <input type="text" id="username" name="username"><br>
+    <button type="submit">Submit</button>
+  </form>
+  </div>
+
+  <h3>Past Mantras</h3>
+<div class="message-boxes">
+  <% for (const otherMessage of otherMessages) { %>
+    <div class="message-box">
+      <p><strong>Name:</strong> <%= otherMessage.username %></p>
+      <p><strong>Message:</strong> <%= otherMessage.message %></p>
+      <p><strong>Timestamp:</strong> <%= otherMessage.timestamp %></p>
+    </div>
+  <% } %>
+</div>
+</body>
+</html>
