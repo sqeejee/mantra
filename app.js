@@ -32,7 +32,6 @@ app.get("/", async (req, res) => {
   try {
     const messages = await fetchMessages();
 
-    console.log(messages)
 
     if (!messages || messages.length === 0) {
       const emptyMessage = { timestamp: "No messages available" };
