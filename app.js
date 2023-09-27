@@ -1,20 +1,18 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const axios = require('axios');
+const express = require("express");
+const bodyParser = require("body-parser");
+const axios = require("axios");
 const app = express();
-const mongodb = require('mongodb');
+const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
-require('dotenv').config();
+require("dotenv").config();
 
-const mongoUrl = "mongodb+srv://45oOjXnRNQSHQvNl:45oOjXnRNQSHQvNl@cluster0.9wcnpni.mongodb.net/?retryWrites=true&w=majority;";
-const dbName = 'Cluster0';
-const collectionName = 'messages';
+const mongoUrl = process.env.DB_URL;
+const dbName = "Cluster0";
+const collectionName = "messages";
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
-app.set('view engine', 'ejs');
-
-
+app.use(express.static("public"));
+app.set("view engine", "ejs");
 
 async function fetchMessages() {
   try {
@@ -25,63 +23,69 @@ async function fetchMessages() {
     client.close();
     return messages;
   } catch (err) {
-    console.error('Error querying MongoDB:', err);
+    console.error("Error querying MongoDB:", err);
     throw err;
   }
 }
 
-app.get('/', async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     const messages = await fetchMessages();
 
     if (!messages || messages.length === 0) {
-      const emptyMessage = { timestamp: 'No messages available' };
-      return res.render('home.ejs', { recentMessage: emptyMessage, otherMessages: [] });
+      const emptyMessage = { timestamp: "No messages available" };
+      return res.render("home.ejs", {
+        recentMessage: emptyMessage,
+        otherMessages: [],
+      });
     }
 
     const recentMessage = messages[0];
     const otherMessages = messages.filter((_, index) => index % 2 !== 0);
 
-    recentMessage.timestamp = new Date(recentMessage.timestamp).toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    });
+    recentMessage.timestamp = new Date(recentMessage.timestamp).toLocaleString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }
+    );
 
-    res.render('home.ejs', { recentMessage, otherMessages });
+    res.render("home.ejs", { recentMessage, otherMessages });
   } catch (err) {
-    return res.status(500).send('Internal Server Error');
+    return res.status(500).send("Internal Server Error");
   }
 });
 
-app.post('/submit', async (req, res) => {
+app.post("/submit", async (req, res) => {
   const { username, message } = req.body;
 
   try {
-    const client = await MongoClient.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+    const client = await MongoClient.connect(mongoUrl);
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
     const newMessage = {
-      username: username || 'Anonymous',
+      username: username || "Anonymous",
       message,
       timestamp: new Date(),
     };
 
     await collection.insertOne(newMessage);
-    console.log('Message inserted:', newMessage);
-    res.redirect('/');
+    console.log("Message inserted:", newMessage);
+    res.redirect("/");
     client.close();
   } catch (err) {
-    console.error('Error inserting message:', err);
-    return res.status(500).send('Internal Server Error');
+    console.error("Error inserting message:", err);
+    return res.status(500).send("Internal Server Error");
   }
 });
 
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
