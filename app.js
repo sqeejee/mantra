@@ -29,39 +29,44 @@ async function fetchMessages() {
 }
 
 app.get("/", async (req, res) => {
-  try {
-    const messages = await fetchMessages();
-
-
-    if (!messages || messages.length === 0) {
-      const emptyMessage = { timestamp: "No messages available" };
-      return res.render("home.ejs", {
-        recentMessage: emptyMessage,
+    try {
+      const messages = await fetchMessages();
+  
+      const recentMessage = messages[0];
+      const otherMessages = messages.filter((_, index) => index % 2 !== 0);
+  
+      if (!messages || messages.length === 0) {
+        const emptyMessage = { timestamp: "No messages available" };
+        return res.render("home.ejs", {
+          recentMessage: emptyMessage,
+          otherMessages: [],
+        });
+      }
+  
+      recentMessage.timestamp = new Date(recentMessage.timestamp).toLocaleString(
+        "en-US",
+        {
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }
+      );
+  
+      res.render("home.ejs", { recentMessage, otherMessages });
+    } catch (err) {
+      console.error("Error fetching messages:", err);
+  
+      const errorMessage = "Error: Unable to fetch messages.";
+      res.render("home.ejs", {
+        recentMessage: { timestamp: errorMessage },
         otherMessages: [],
       });
     }
-
-    const recentMessage = messages[0];
-    const otherMessages = messages.filter((_, index) => index % 2 !== 0);
-
-    recentMessage.timestamp = new Date(recentMessage.timestamp).toLocaleString(
-      "en-US",
-      {
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }
-    );
-
-    res.render("home.ejs", { recentMessage, otherMessages });
-  } catch (err) {
-    return res.status(500).send("Internal Server Error");
-  }
-});
-
+  });
+  
 app.post("/submit", async (req, res) => {
   const { username, message } = req.body;
 
