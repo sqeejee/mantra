@@ -87,7 +87,7 @@ app.post("/submit", async (req, res) => {
     client.close();
   } catch (err) {
     console.error("Error inserting message:", err);
-    return res.status(500).send("Internal Server Error");
+    return res.status(500).send("Test");
   }
 });
 
